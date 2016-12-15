@@ -3,9 +3,6 @@
 require 'cmdparse'
 require 'yaml'
 require 'active_record'
-require 'pp'
-
-
 
 module DuePaymentCli
 
@@ -71,7 +68,7 @@ module DuePaymentCli
       ActiveRecord::Migrator.migrate("#{ROOT_DIR}/db/migrate/")
 
       require 'active_record/schema_dumper'
-      filename = "#db/schema.rb"
+      filename = "db/schema.rb"
       File.open(filename, "w:utf-8") do |file|
         ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, file)
       end
@@ -119,9 +116,6 @@ module DuePaymentCli
   parser.add_command(DestroyCommand.new, default: false)
 
   # TODO : Create a destroy command ...
-
-
-
 
 
 

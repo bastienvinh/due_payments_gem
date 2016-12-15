@@ -49,6 +49,8 @@ namespace :db do
     end
   end
 
+
+  desc 'Fill database with false data'
   task :seed do
     ActiveRecord::Base.establish_connection(db_config)
     filename = "db/seed.rb"
@@ -56,6 +58,18 @@ namespace :db do
     if File.exists?(abs_path_filename)
       load(abs_path_filename)
     end
+  end
+
+end
+
+namespace :app do
+
+  desc "build applications"
+  task :build do
+    `rm -rf *.gem`
+    puts 'Old packages deleted ...'
+    `gem build due_payments.gemspec`
+    puts "Buildings done ..."
   end
 
 end
