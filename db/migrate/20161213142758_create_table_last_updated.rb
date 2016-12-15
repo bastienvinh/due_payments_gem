@@ -1,4 +1,4 @@
-class CreateTableLastUpdated < ActiveRecord::Migration
+class CreateTableLastUpdated < ActiveRecord::Migration[5.0]
 
   def up
     create_table :last_periods_estates, :id => false do |tdef|

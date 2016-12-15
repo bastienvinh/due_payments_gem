@@ -1,6 +1,6 @@
 require "due_payments/version"
 require "active_record"
-require 'due_payments_base'
+require "#{File.dirname(__FILE__)}/due_payments_base"
 
 module DuePayments
   
