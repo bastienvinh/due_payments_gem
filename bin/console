@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
-require "due_payments"
+require "due_payments/due_payments"
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
@@ -13,13 +13,13 @@ require "due_payments"
 
 # We need to init every file we wrote
 root_dir = File.absolute_path("#{File.dirname(__FILE__)}/..")
-Dir['lib/*.rb'].each { |filename|
+Dir['lib/due_payments/*.rb'].each { |filename|
   load("#{root_dir}/#{filename}")
   puts "Load files :  #{filename}"
 }
 
 # We init the connection to the database
-DuePayments::DPMRecordBase.configure
+DuePayments::Data::DPMRecordBase.configure
 puts "Connection to database ... Ok"
 
 require "irb"

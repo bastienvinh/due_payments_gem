@@ -9,3 +9,4 @@
 /tmp/
 due_payments-0.1.0.gem
 .vscode
+db/development.sqlite3

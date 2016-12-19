@@ -3,6 +3,7 @@
 require 'cmdparse'
 require 'yaml'
 require 'active_record'
+require 'due_payments/version'
 
 module DuePaymentCli
 
@@ -12,7 +13,7 @@ module DuePaymentCli
 
   # information about my command line program
   parser.main_options.program_name = "duepgem - DuePayment system library"
-  parser.main_options.version = "0.1.0"
+  parser.main_options.version = DuePayments::VERSION
   # parser.main_options.banner = "This a command line system to help you manipulate a Due Payment system from any Ruby Project"
 
   # Default command

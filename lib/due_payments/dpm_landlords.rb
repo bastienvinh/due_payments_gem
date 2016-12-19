@@ -1,9 +1,9 @@
 require 'active_record'
 require "#{File.dirname(__FILE__)}/due_payments_base"
 
-module DuePayments
+module DuePayments::Data
 
-  class Landlord < DPMRecordBase
+  class DPMLandlord < DPMRecordBase
     
     self.table_name = "landlords"
 
