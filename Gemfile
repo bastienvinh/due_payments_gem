@@ -5,3 +5,4 @@ gemspec
 
 gem 'sqlite3'
 gem 'cmdparse'
+gem 'rspec'

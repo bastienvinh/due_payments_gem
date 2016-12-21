@@ -4,15 +4,31 @@ require "active_record"
 require "yaml"
 require "pp"
 
+
+require "rubygems/commands/uninstall_command"
+
 RSpec::Core::RakeTask.new(:spec)
 
 task :default => :spec
+
+
+desc "Uninstall the gem"
+task :uninstall do
+
+  begin
+    Gem::Uninstaller.new('due_payments', :all => true, :executables => true).uninstall
+    `rm -f *.gem`
+    puts "Gem due_payments has just been deleted ..."
+    puts "Enjoy ..."    
+  rescue
+    puts "You have an error ..."
+  end
+end
 
 namespace :db do
 
   RAILS_ENV = 'development'
   db_config       = YAML::load(File.open('config/database.yml'))[RAILS_ENV]
-  # db_config_admin = db_config.merge({'database' => 'postgres', 'schema_search_path' => 'public'})
 
   desc "Create the database"
   task :create do

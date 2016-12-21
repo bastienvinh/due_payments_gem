@@ -5,6 +5,8 @@ LIB_ROOT = File.dirname(__FILE__)
 require "#{LIB_ROOT}/dpm_landlords"
 require "#{LIB_ROOT}/utils/object_utils"
 require "#{LIB_ROOT}/identifier_module"
+require "#{LIB_ROOT}/exceptions"
+require "#{LIB_ROOT}/utils/errors_utils"
 
 DPMLandlord = DuePayments::Data::DPMLandlord
 
@@ -21,14 +23,13 @@ class DuePayments::Landlord
   class << self
     
     def create(*opts)
-      result = DuePayments::Landlord.new(@@create_id)
-      # Get Active record data
-      DuePayments::Utils::ObjectUtils::symbols_set_obj(result, *opts)
-
-
       # Insert into database
-      DPMLandlord.create(*opts)
+      result = convertor(DPMLandlord.create(*opts))
+      return result
+    end
 
+    def create_object
+      result = DuePayments::Landlord.new(@@create_id)
       return result
     end
 
@@ -38,24 +39,49 @@ class DuePayments::Landlord
     end
 
     def delete(id)
-
+      landlord = DPMLandlord.find(id)
+      newResult = convertor(landlord)
+      landlord.destroy
+      return newResult
     end
-
-    def delete(criteria)
+    
+    def find_one(criteria)
       
     end
 
-    def get(criteria)
+    # TODO : put a constract to integer only
+    def find(id)
+
+      begin
+        # TODO : Improve this query because he cant take more than one result
+        result = DPMLandlord.find(id)
+      rescue
+        raise DuePayments::Default::landlord_cant_be_find
+      end
+      
+      return convertor( result )
+    end
+
+    def first(*criteria)
+    end
+
+    def delete_one(id)
+      begin
+        result = DPMLandlord.find(id)
+        deleted_user = convertor(result)
+        result.destroy
+      rescue ActiveRecord::RecordNotFound
+        raise DuePayments::Default::landlord_cant_be_find
+      rescue => e
+        raise DuePayments::Default.new("Unknown error : #{e.message}")
+      end
+
+      return deleted_user
     end
 
     private
 
-    # Insert teh date into the database
-    def create_data
-      
-    end
-
-    def convertor(data)
+    def convertor(data, has_id = true)
 
       result = DuePayments::Landlord.new(@@create_id)
       result.firstname = data.firstname
@@ -64,7 +90,10 @@ class DuePayments::Landlord
       result.zip_code = data.zip_code
       result.phone_number = data.phone_number
       result.email = data.email
-      result.id = data.id
+      
+      if has_id
+        result.id = data.id
+      end
 
       return result
     end
