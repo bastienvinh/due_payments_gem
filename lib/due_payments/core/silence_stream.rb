@@ -1,4 +1,4 @@
-module DuePayments::Utils
+module DuePayments::Core
 
   def self.silence_stream(*streams)
     on_hold = streams.collect{ |stream| stream.dup }

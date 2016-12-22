@@ -1,50 +1,12 @@
 require "spec_helper"
 require "due_payments/landlord"
-require "due_payments/utils/silence_stream"
+require "due_payments/core/silence_stream"
 require "due_payments/exceptions"
 require "due_payments/utils/errors_utils"
-require "pp"
+
+require 'active_record_test'
 
 Landlord = DuePayments::Landlord
-
-
-################## Private Methods
-
-def start_by_initiatng_database
-
-   filename = "db/test.sqlite3"
-    db_config = YAML::load(File.open('config/database.yml'))['test']
-
-    if !File.exist?("db/test.sqlite3")
-
-      puts "Creating database file : #{filename}"
-
-      ActiveRecord::Base.establish_connection(db_config)
-      ActiveRecord::Migrator.migrate("db/migrate/")
-      
-      require 'active_record/schema_dumper'
-      filename = "db/schema.rb"
-      File.open(filename, "w:utf-8") do |file|
-        ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, file)
-      end
-
-    else
-      puts "Already created database file : #{filename}"
-    end
-
-end
-
-def finish_by_delete_database
-  filename = "db/test.sqlite3"
-    if File.exists?(filename)
-      File.delete filename
-      puts "Delete environment test file #{filename}"
-    end
-end
-
-
-################## End Private Methods
-
 
 
 ################## Tests
@@ -54,7 +16,7 @@ RSpec.describe "Landlord database" do
 
   before :all do
     # Don't need to see all th migration database informations ... Active records work very well already
-    DuePayments::Utils.silence_stdout { start_by_initiatng_database }
+    DuePayments::Core.silence_stdout { start_by_initiatng_database }
     puts "Database created and loaded ..."
   end
 
@@ -112,7 +74,6 @@ RSpec.describe "Landlord database" do
     context "find" do
       it "find methods => correct case : return one data" do
         new_object = Landlord.create(:firstname => "barry", :lastname => "allen", :email => "test@yopmail.com", :zip_code => "YHJ 7YH", :address => "6, play mchine")
-        pp new_object
         expect(new_object.id).not_to be_nil
         expect { Landlord.find(new_object.id) }.not_to raise_error
         object_to_test = Landlord.find(new_object.id)
@@ -147,6 +108,7 @@ RSpec.describe "Landlord database" do
 
   after :all do
     finish_by_delete_database
+    puts "Database deleted ..."
   end
 
 end

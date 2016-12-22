@@ -10,6 +10,8 @@ require "#{LIB_ROOT}/utils/errors_utils"
 
 DPMLandlord = DuePayments::Data::DPMLandlord
 
+# TODO : implement more features ...
+
 class DuePayments::Landlord
 
   include DuePayments::Identifier

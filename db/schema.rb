@@ -23,8 +23,16 @@ ActiveRecord::Schema.define(version: 20161213142758) do
     t.integer  "estate_code"
     t.string   "name"
     t.integer  "landlord_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.decimal  "price_per_acre",    precision: 20, scale: 2
+    t.integer  "acre"
+    t.string   "zip_code"
+    t.string   "address"
+    t.string   "geolocalisation"
+    t.string   "coordinate_points"
+    t.text     "description"
+    t.decimal  "total_price",       precision: 20, scale: 2
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
   end
 
   create_table "landlords", force: :cascade do |t|
@@ -32,7 +40,7 @@ ActiveRecord::Schema.define(version: 20161213142758) do
     t.string   "lastname",                null: false
     t.string   "address",                 null: false
     t.string   "zip_code",     limit: 9,  null: false
-    t.string   "phone_number", limit: 15
+    t.string   "phone_number", limit: 12
     t.string   "email",                   null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false

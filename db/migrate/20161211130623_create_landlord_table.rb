@@ -8,6 +8,7 @@ class CreateLandlordTable < ActiveRecord::Migration[5.0]
       t.string :zip_code, :limit => 9, :null => false
       t.string :phone_number, :limit => 15
       t.string :email, :null => false
+      t.string :phone_number, :limit => 12, :nil => true
 
       t.timestamps
     end

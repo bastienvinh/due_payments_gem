@@ -6,7 +6,7 @@ module DuePayments::Utils
       
       def symbols_set_obj(obj, attributes)
         attributes.each {|attribute, value| obj.send("#{attribute}=", value)}
-        nil
+        return nil
       end
       
     end
