@@ -1,13 +1,9 @@
 require "spec_helper"
-require "due_payments/landlord"
-require "due_payments/core/silence_stream"
-require "due_payments/exceptions"
-require "due_payments/utils/errors_utils"
 
+require 'autoload'
 require 'active_record_test'
 
 Landlord = DuePayments::Landlord
-
 
 ################## Tests
 

@@ -1,12 +1,6 @@
 require 'securerandom'
 
-LIB_ROOT = File.dirname(__FILE__)
-
-require "#{LIB_ROOT}/dpm_estates"
-require "#{LIB_ROOT}/utils/object_utils"
-require "#{LIB_ROOT}/utils/errors_utils"
-require "#{LIB_ROOT}/identifier_module"
-require "#{LIB_ROOT}/exceptions"
+require "#{File.dirname(__FILE__)}/autoload"
 
 
 DPMEstate = DuePayments::Data::DPMEstate

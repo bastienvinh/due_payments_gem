@@ -1,12 +1,6 @@
 require 'securerandom'
 
-LIB_ROOT = File.dirname(__FILE__)
-
-require "#{LIB_ROOT}/dpm_landlords"
-require "#{LIB_ROOT}/utils/object_utils"
-require "#{LIB_ROOT}/identifier_module"
-require "#{LIB_ROOT}/exceptions"
-require "#{LIB_ROOT}/utils/errors_utils"
+require "#{File.dirname(__FILE__)}/autoload"
 
 DPMLandlord = DuePayments::Data::DPMLandlord
 

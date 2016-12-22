@@ -1,15 +1,11 @@
 require "spec_helper"
-require "due_payments/estate"
-require "due_payments/core/silence_stream"
-require "due_payments/exceptions"
-require "due_payments/utils/errors_utils"
-
 require 'active_record_test'
+
+require "#{File.dirname(__FILE__)}/autoload"
 
 Estate = DuePayments::Estate
 
 RSpec.describe "Estates database" do
-
 
   before :all do
     DuePayments::Core.silence_stdout { start_by_initiatng_database }

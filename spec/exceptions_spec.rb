@@ -1,5 +1,5 @@
 require "spec_helper"
-require "due_payments/utils/errors_utils"
+require 'autoload'
 
 RSpec.describe "Exceptions handlings" do
   context "DuePayments::Exception" do
