@@ -13,6 +13,7 @@ class CreateEstatesTable < ActiveRecord::Migration[5.0]
       tdef.string :coordinate_points, :nil => true #Well if you want to create precise coordinate
       tdef.text :description, :nil => true
       tdef.decimal :total_price, :nil => true, :precision => 20, :scale => 2
+      tdef.boolean :enable, :nil => false, :default => true
 
       tdef.timestamps
     end

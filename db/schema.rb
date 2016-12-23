@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213142758) do
+ActiveRecord::Schema.define(version: 20161223111301) do
 
   create_table "duepayments", force: :cascade do |t|
     t.integer  "estate_id"
@@ -31,19 +31,21 @@ ActiveRecord::Schema.define(version: 20161213142758) do
     t.string   "coordinate_points"
     t.text     "description"
     t.decimal  "total_price",       precision: 20, scale: 2
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.boolean  "enable",                                     default: true
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
   end
 
   create_table "landlords", force: :cascade do |t|
-    t.string   "firstname",               null: false
-    t.string   "lastname",                null: false
-    t.string   "address",                 null: false
-    t.string   "zip_code",     limit: 9,  null: false
+    t.string   "firstname",                              null: false
+    t.string   "lastname",                               null: false
+    t.string   "address",                                null: false
+    t.string   "zip_code",     limit: 9,                 null: false
     t.string   "phone_number", limit: 12
-    t.string   "email",                   null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "email",                                  null: false
+    t.boolean  "enable",                  default: true, null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   create_table "last_periods_estates", id: false, force: :cascade do |t|
@@ -52,12 +54,34 @@ ActiveRecord::Schema.define(version: 20161213142758) do
   end
 
   create_table "periods", force: :cascade do |t|
-    t.string   "name",                                     null: false
-    t.integer  "number_of_days", limit: 4
-    t.boolean  "recycle_period",           default: false, null: false
+    t.string   "name",                                       null: false
+    t.integer  "number_of_days",   limit: 4, default: 0
+    t.integer  "number_of_months", limit: 2, default: 0
+    t.boolean  "recycle_period",             default: false, null: false
     t.datetime "before_date"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.boolean  "enable",                     default: true
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  create_table "reminders", force: :cascade do |t|
+    t.integer  "estate_id"
+    t.integer  "period_id"
+    t.datetime "date_to_pay"
+    t.datetime "date_to_notify"
+    t.boolean  "active",         default: true
+    t.integer  "status_id"
+    t.boolean  "enable",         default: true, null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.index ["estate_id"], name: "index_reminders_on_estate_id"
+    t.index ["period_id"], name: "index_reminders_on_period_id"
+  end
+
+  create_table "status_reminder", id: false, force: :cascade do |t|
+    t.integer "status_id"
+    t.string  "name"
+    t.index ["status_id"], name: "index_status_reminder_on_status_id"
   end
 
 end

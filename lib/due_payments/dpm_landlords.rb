@@ -6,6 +6,8 @@ module DuePayments::Data
 
   class DPMLandlord < DPMRecordBase
     self.table_name = "landlords"
+
+    has_many :estates, :class_name => "DuePayments::Data::DPMEstate", :foreign_key => "landlord_id"
   end
 
 end
