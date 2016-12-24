@@ -14,9 +14,14 @@ module DuePayments
       return DuePayments::Exception.new("Invalid landlord information")
     end
 
-    # Exceptions for 
+    # Exceptions for estate
     def self.estate_cant_be_found
       return DuePayments::Exception.new("Can't find estate.")
+    end
+
+    # Exception for reminder
+    def self.reminder_cant_be_find
+      return DuePayments::Exception.new("Can't find reminder.")
     end
 
     # General Exceptions
