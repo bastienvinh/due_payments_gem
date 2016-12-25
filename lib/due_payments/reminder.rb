@@ -33,21 +33,51 @@ class DuePayments::ReminderStatus
       return result
     end
 
-    def find(id)
-    end
-
     def all
       return DPMReminder.all.map { |r| convertor(r) }
     end
 
-    def day(date)
-      return DPMReminder
-        .where("date_to_pay >= ? AND date_to_pay <= ? ", date.beginning_of_day, date.end_of_day)
-        .map { |r| convertor(r) }
+    def all_from_date(date)
+      return DPMReminder.since(date).map do |r|  
+        { :status_code => r.status_id, :date_to_notify => r.date_to_pay, :date_limit => r.date_to_notify, :active => r.active, :periode_code => r.period_id, :estate_id => r.estate_id }
+      end
     end
 
-    def from(date)
+    def all_between(from_date, to_date)
+      return DPMReminder.since(from_date, to_date).map do |r|  
+        { :status_code => r.status_id, :date_to_notify => r.date_to_pay, :date_limit => r.date_to_notify, :active => r.active, :periode_code => r.period_id, :estate_id => r.estate_id }
+      end
     end
+
+    def all_from_estate(id)
+      return DPMReminder.by_estate(id).map do |r|  
+        { :status_code => r.status_id, :date_to_notify => r.date_to_pay, :date_limit => r.date_to_notify, :active => r.active, :periode_code => r.period_id, :estate_id => r.estate_id }
+      end
+    end
+
+
+    def period(period_id)
+      return DPMReminder.by_period(period_id).map { |r| convertor(r) }
+    end
+
+    def period_from_date(period_id, date)
+      return DPMReminder.by_period(period_id).since(date).map do |r|  
+        { :status_code => r.status_id, :date_to_notify => r.date_to_pay, :date_limit => r.date_to_notify, :active => r.active, :periode_code => r.period_id, :estate_id => r.estate_id }
+      end
+    end
+
+    def period_between(period_id, from_date, to_date)
+      return DPMReminder.by_period(period_id).since(from_date, to_date).map do |r|  
+        { :status_code => r.status_id, :date_to_notify => r.date_to_pay, :date_limit => r.date_to_notify, :active => r.active, :periode_code => r.period_id, :estate_id => r.estate_id }
+      end
+    end
+
+    def period_from_estate(period_id, estate_id)
+      return DPMReminder.by_period(period_id).by_estate(estate_id).map do |r|  
+        { :status_code => r.status_id, :date_to_notify => r.date_to_pay, :date_limit => r.date_to_notify, :active => r.active, :periode_code => r.period_id, :estate_id => r.estate_id }
+      end
+    end
+
 
     private
     def convertor(data, has_id=true)
@@ -108,22 +138,25 @@ class Reminder
     return result
   end
 
-  def list(estate_id=nil)
-
-  end
-
   # We return a exuastive list of
-  def list_by_date(date)
-
+  def all_by_date(date)
+    data_reminders = DuePayments::ReminderStatus.all_from_date(date)
+    #  TODO : find a better way to deal with it / tempory way to retrieve the information
+    # I do two request to light the request time than using a concatenation
+    # landlords = DuePayments::Data::DPMLandlord.from_landlords(data_reminders.map( |r| r.estate_id ))
+    return data_reminders
   end
 
-  def list_of_today
+  def all_of_today
+    #TODO : implement this
   end
 
-  def list_of_unpaid
+  def all_is_unpaid
+    # TODO : implement this
   end
 
-  def list_of_late
+  def all_late_in_paid
+    # TODO : implements this
   end
 
   # be careful when you save, it might consum a lot

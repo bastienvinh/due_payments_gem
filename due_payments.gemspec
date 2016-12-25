@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/bastienvinh/due_payments_gem"
   spec.license       = "MIT"
 
-  spec.required_ruby_version = '~> 2.3.0'
+  spec.required_ruby_version = '~> 2.4.0'
 
   # TODO : improve these line
   spec.files = Dir['lib/due_payments/*.rb'] + Dir['bin/*'] + Dir['db/migrate/*'] + Dir['lib/due_payments/utils/*.rb']

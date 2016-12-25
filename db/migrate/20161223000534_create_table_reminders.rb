@@ -6,7 +6,6 @@ class CreateTableReminders < ActiveRecord::Migration[5.0]
       tdef.integer "period_id", :index => true
       tdef.datetime "date_to_pay"
       tdef.datetime "date_to_notify"
-      tdef.boolean "active", :default => true
       tdef.integer "status_id", :nil => true
       tdef.boolean "enable", :null => false, :default => true
 
