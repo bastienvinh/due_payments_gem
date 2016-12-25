@@ -90,8 +90,7 @@ module DuePaymentCli
     end
 
     def execute
-      # TODO : implement it please
-      puts "Not implemented yet ..."
+      # TODO : Remove status
     end
 
   end
@@ -105,8 +104,15 @@ module DuePaymentCli
     end
 
     def execute
-      # TODO : implement it please
-      puts "Not implemented yet ..."
+      require 'pp'
+      DuePayments::Data::DPMRecordBase.configure
+      estate1 = DuePayments::Estate.find(1)
+      estate2 = DuePayments::Estate.find(2)
+      estate3 = DuePayments::Estate.find(3)
+      
+      reminder = Reminder.find(1)
+      reminder.on(DateTime.now + 60.days, estate1)
+      nil
     end
 
   end

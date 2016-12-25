@@ -13,7 +13,7 @@ module DuePayments::Data
       where("date_to_pay >= ? AND date_to_pay <= ? ", from_date, to_date)
     }
 
-    scope :by_period, ->(id) { where( :period_id => id ) }
+    scope :by_period, ->(period_id) { where( :period_id => period_id ) }
 
     scope :is_unpaid, ->  { where( :status_id => StatusReminder.UNPAID ) }
     scope :has_paid, -> { where( :status_id => StatusReminder.PAID ) }

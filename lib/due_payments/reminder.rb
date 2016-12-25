@@ -57,6 +57,7 @@ class DuePayments::ReminderStatus
 
 
     def period(period_id)
+      test = DPMReminder.by_period(period_id)
       return DPMReminder.by_period(period_id).map { |r| convertor(r) }
     end
 
@@ -123,16 +124,16 @@ class Reminder
   
   def on(date, estates)
     # TODO : finish this functions
-    unless id.nil?
+    if @id.nil?
       raise "Save your reminder first."
     end
 
     # TODO : do better than that
     # TODO : verify duplicate date
     if estates.instance_of? DuePayments::Estate
-      result = self.class.create_a_reminder_status(date, estates)  
+      result = create_a_reminder_status(date, estates)  
     else
-      result = self.class.create_multiple_reminder_status(date, estates)
+      result = create_multiple_reminder_status(date, estates)
     end
 
     return result
@@ -162,9 +163,9 @@ class Reminder
   # be careful when you save, it might consum a lot
   def save
     if @id.nil? && !Reminder.exists?(@id)
-      save_internally_on_database
+      self.save_internally_on_database
     else
-      update_internaly_on_database 
+      self.update_internaly_on_database 
     end
   end
 
@@ -175,8 +176,11 @@ class Reminder
   private
 
   def save_internally_on_database
-    DPMPeriods.create( :name => @name, :enable => @enable, :number_of_days => @number_of_days, 
+    data = DPMPeriods.create( :name => @name, :enable => @enable, :number_of_days => @number_of_days, 
     :number_of_months => @number_of_months, :recycle_period => @recycle_period, :before_date => @before_date )
+
+    @id = data.id
+    return self
   end
 
   def update_internaly_on_database
@@ -191,37 +195,37 @@ class Reminder
     data.save
   end
 
+  # TODO : add contract for on estate
+  def create_a_reminder_status(date, estate)
+    result = DuePayments::ReminderStatus.create(:status_id => @status_code, :estate_id => estate.id, :period_id => @id, :date_to_pay => date, :date_to_notify => @before_date)
+    return { :reminder_id => result.id, :date => date, :estate_id => estate.id }
+  end
+
+  # TODO : add contract to reminder status
+  def create_multiple_reminder_status(date, estates)
+    result = []
+    estates.each do |e|
+      result << create_a_reminder_status(date, e)
+    end
+    return result
+  end
 
   class << self
 
     def find(id)
       
       begin
-        data = DPMPeriods.find(1)
+        data = DPMPeriods.find(id)
         result = Reminder.new(:before_date => data.before_date, :name => data.name, :number_of_days => data.number_of_days, 
         :number_of_months => data.number_of_months, :recycle_period => data.recycle_period, :enable => data.enable)
+        result.id = data.id
       rescue ActiveRecord::RecordNotFound
         raise DuePayments::Default.reminder_cant_be_find
       rescue
-        raise DuePayments::Default.unknown_error 
+        DuePayments::Default.unknown_error
+
       end
 
-      return result
-    end
-
-    # TODO : add contract for on estate
-    def create_a_reminder_status(date, estate)
-      result = DuePayments::ReminderStatus.create(:status_id => @status_code, :estate_id => estate.id, :period_id => @period_id, :date_to_pay => date, :date_to_notify => @before_date)
-      pp result
-      return { :reminder_id => result.id, :date => date, :estate_id => estate.id }
-    end
-
-    # TODO : add contract to reminder status
-    def create_multiple_reminder_status(date, estates)
-      result = []
-      estates.each do |e|
-        result << create_a_reminder_status(date, e)
-      end
       return result
     end
 
