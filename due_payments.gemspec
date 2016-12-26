@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '~> 2.4.0'
 
   # TODO : improve these line
-  spec.files = Dir['lib/due_payments/*.rb'] + Dir['bin/*'] + Dir['db/migrate/*'] + Dir['lib/due_payments/utils/*.rb']
+  spec.files = Dir['lib/due_payments/*.rb'] + Dir['bin/*'] + Dir['db/migrate/*'] + Dir['lib/due_payments/utils/*.rb'] + Dir['lib/due_payments/core/*.rb'] + Dir['lib/due_payments/dpm/*.rb'] + Dir['lib/due_payments/common/*.rb']
   spec.files << 'CODE_OF_CONDUCT.md'
 
   spec.bindir        = "bin"

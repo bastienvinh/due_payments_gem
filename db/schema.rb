@@ -69,7 +69,6 @@ ActiveRecord::Schema.define(version: 20161223111301) do
     t.integer  "period_id"
     t.datetime "date_to_pay"
     t.datetime "date_to_notify"
-    t.boolean  "active",         default: true
     t.integer  "status_id"
     t.boolean  "enable",         default: true, null: false
     t.datetime "created_at",                    null: false

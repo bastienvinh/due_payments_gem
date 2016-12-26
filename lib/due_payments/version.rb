@@ -1,3 +1,3 @@
 module DuePayments
-  VERSION = "0.1.1"
+  VERSION = "0.7.5"
 end
