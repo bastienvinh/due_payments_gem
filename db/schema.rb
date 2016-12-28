@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 20161223111301) do
     t.string   "lastname",                               null: false
     t.string   "address",                                null: false
     t.string   "zip_code",     limit: 9,                 null: false
-    t.string   "phone_number", limit: 12
     t.string   "email",                                  null: false
+    t.string   "phone_number", limit: 15
     t.boolean  "enable",                  default: true, null: false
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
