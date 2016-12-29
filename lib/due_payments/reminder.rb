@@ -200,7 +200,7 @@ class Reminder
     estates.each do |e|
       result << create_a_reminder_status(date, e)
     end
-    return result
+    result
   end
 
   class << self

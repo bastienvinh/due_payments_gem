@@ -7,35 +7,39 @@ module DuePayments
     # Exceptions for landlords datas
 
     def self.landlord_cant_be_find
-      return DuePayments::Exception.new("Can't find landlord.")
+      DuePayments::Exception.new('Can\'t find landlord.')
     end
 
     def self.invalid_landlord
-      return DuePayments::Exception.new("Invalid landlord information")
+      DuePayments::Exception.new('Invalid landlord information')
     end
 
     # Exceptions for estate
     def self.estate_cant_be_found
-      return DuePayments::Exception.new("Can't find estate.")
+      DuePayments::Exception.new('Can\'t find estate.')
     end
 
     # Exception for reminder
     def self.reminder_cant_be_find
-      return DuePayments::Exception.new("Can't find reminder.")
+      DuePayments::Exception.new('Can\'t find reminder.')
     end
 
     # General Exceptions
 
     def self.cant_create_instance
-      return DuePayments::Exception.new("Can't create new instance")
+      DuePayments::Exception.new('Can\'t create new instance')
     end
 
     def self.unknown_error
-      return DuePayments::Exception.new
+      DuePayments::Exception.new
+    end
+
+    def self.problem_with_properties
+      DuePayments::Exception.new('Properties doesn\'t exist or not filled corretly')
     end
 
     def self.attribute_dont_exists
-      return DuePayments::Exception.new("This attribute doesn't exist in the first place")
+      DuePayments::Exception.new('This attribute doesn\'t exist in the first place')
     end
 
   end

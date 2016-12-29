@@ -17,28 +17,34 @@ class DuePayments::Landlord
   attr_accessor :firstname, :lastname, :address, :zip_code, :phone_number, :email
 
   class << self
-    
+
     def create(*opts)
       # Insert into database
-      result = convertor(DPMLandlord.create(*opts))
-      return result
+      begin
+        result = convertor(DPMLandlord.create(*opts))
+      rescue ActiveRecord::StatementInvalid
+        raise DuePayments::Default.problem_with_properties
+      rescue
+        raise DuePayments::Default.unknown_error
+      end
+      result
     end
 
     def create_object
       result = DuePayments::Landlord.new(@@create_id)
-      return result
+      result
     end
 
     def all
       datas = DPMLandlord.all.map { |d| convertor(d) }
-      return datas
+      datas
     end
 
     def delete(id)
       landlord = DPMLandlord.find(id)
       newResult = convertor(landlord)
       landlord.destroy
-      return newResult
+      newResult
     end
     
     def find_one(criteria)
