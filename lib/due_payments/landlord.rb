@@ -68,15 +68,36 @@ class DuePayments::Landlord
 
     def first(*criteria); end
 
+
+    def update_attribute(*opts); end
+
+    def update(landlord)
+      begin
+        # TODO : add contract about landlord
+        data = DPMLandlord.find(landlord.id)
+        data.firstname = landlord.firstname
+        data.lastname = landlord.lastname
+        data.address = landlord.address
+        data.zip_code = landlord.zip_code
+        data.phone_number = landlord.phone_number
+        data.email = landlord.email
+        data.enable = landlord.enable
+        has_saved = data.save
+      rescue ActiveRecord::RecordNotFound
+        raise DuePayments::Default.landlord_cant_be_find
+      end
+      has_saved
+    end
+
     def delete_one(id)
       begin
         result = DPMLandlord.find(id)
         deleted_user = convertor(result)
         result.destroy
       rescue ActiveRecord::RecordNotFound
-        raise DuePayments::Default::landlord_cant_be_find
-      rescue => e
-        raise DuePayments::Default.new("Unknown error : #{e.message}")
+        raise DuePayments::Default.landlord_cant_be_find
+      rescue
+        raise DuePayments::Default.unknown_error
       end
 
       deleted_user
