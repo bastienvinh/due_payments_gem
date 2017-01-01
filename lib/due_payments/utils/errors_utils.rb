@@ -20,7 +20,7 @@ module DuePayments
     end
 
     def self.estates_is_not_in_this_reminder
-      DuePayments::EstateReminderNotFound.new
+      DuePayments::EstateReminderNotFound
     end
 
     # Exception for reminder
@@ -43,8 +43,9 @@ module DuePayments
       DuePayments::Exception.new('Properties doesn\'t exist or not filled corretly')
     end
 
-    def self.attribute_dont_exists
-      DuePayments::Exception.new('This attribute doesn\'t exist in the first place')
+    def self.attribute_doesnt_exists(attribute_name='')
+      message = 'This attribute doesn\'t exist in the first place'
+      DuePayments::AttributeDataUnknownException.new(message, attribute_name)
     end
 
   end

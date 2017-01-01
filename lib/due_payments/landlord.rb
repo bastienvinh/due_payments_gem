@@ -1,4 +1,5 @@
 require 'securerandom'
+require 'pp'
 
 require "#{File.dirname(__FILE__)}/autoload"
 
@@ -15,6 +16,7 @@ class DuePayments::Landlord
   @@create_id = SecureRandom.uuid
 
   attr_accessor :firstname, :lastname, :address, :zip_code, :phone_number, :email
+  attr_accessor :enable
 
   class << self
 
@@ -22,8 +24,12 @@ class DuePayments::Landlord
       # Insert into database
       begin
         result = convertor(DPMLandlord.create(*opts))
-      rescue ActiveRecord::StatementInvalid
+      rescue ActiveRecord::StatementInvalid 
         raise DuePayments::Default.problem_with_properties
+      rescue ActiveModel::UnknownAttributeError => ua
+        excep = DuePayments::Default.attribute_doesnt_exists
+        excep.attribute = ua.attribute
+        raise excep
       rescue
         raise DuePayments::Default.unknown_error
       end
@@ -79,7 +85,6 @@ class DuePayments::Landlord
     private
 
     def convertor(data, has_id = true)
-
       result = DuePayments::Landlord.new(@@create_id)
       result.firstname = data.firstname
       result.lastname = data.lastname
@@ -87,12 +92,9 @@ class DuePayments::Landlord
       result.zip_code = data.zip_code
       result.phone_number = data.phone_number
       result.email = data.email
-
-      if has_id
-        result.id = data.id
-      end
-
-      return result
+      result.enable = data.enable
+      result.id = has_id ? data.id : nil
+      result
     end
 
   end
@@ -108,6 +110,7 @@ class DuePayments::Landlord
     @phone_number = ''
     @email = ''
     @id = nil
+    @enable = true
 
   end
 

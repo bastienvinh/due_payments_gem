@@ -32,4 +32,17 @@ module DuePayments
       super
     end
   end
+
+  class AttributeDataUnknownException < DuePayments::Exception
+
+    attr_accessor :attribute
+
+    def initialize(
+      msg='Properties doesn\'t exist or not filled corretly',
+      attribute = ''
+    )
+      super(msg)
+      @attribute = attribute
+    end
+  end
 end

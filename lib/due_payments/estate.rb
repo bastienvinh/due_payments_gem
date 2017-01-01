@@ -20,7 +20,7 @@ class DuePayments::Estate
         # TODO : Add our custom errors
         result = convertor(DPMEstate.create(*opts))
       rescue ActiveModel::UnknownAttributeError
-        raise DuePayments::Default::attribute_dont_exists
+        raise DuePayments::Default.attribute_doesnt_exists
       end
 
       return result
@@ -33,8 +33,7 @@ class DuePayments::Estate
 
     def all
       # TODO : manage connection errors and exceptions
-      result = DPMEstate.all.map { |d| convertor(d) }
-      return result
+      DPMEstate.all.map { |d| convertor(d) }
     end
 
     def find(id)
@@ -45,12 +44,11 @@ class DuePayments::Estate
       end
 
       result ||= create_object
-      return result
+      result
     end
 
     def find_by_landord(id)
-      result = DPMEstate.where(:landlord_id => id).all.map{ |d| convertor(d) }
-      return result
+      DPMEstate.where(:landlord_id => id).all.map{ |d| convertor(d) }
     end
 
     private
