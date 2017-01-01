@@ -46,10 +46,6 @@ class DuePayments::Landlord
       landlord.destroy
       newResult
     end
-    
-    def find_one(criteria)
-      
-    end
 
     # TODO : put a constract to integer only
     def find(id)
@@ -60,12 +56,11 @@ class DuePayments::Landlord
       rescue
         raise DuePayments::Default::landlord_cant_be_find
       end
-      
-      return convertor( result )
+
+      convertor( result )
     end
 
-    def first(*criteria)
-    end
+    def first(*criteria); end
 
     def delete_one(id)
       begin
@@ -78,7 +73,7 @@ class DuePayments::Landlord
         raise DuePayments::Default.new("Unknown error : #{e.message}")
       end
 
-      return deleted_user
+      deleted_user
     end
 
     private
@@ -92,7 +87,7 @@ class DuePayments::Landlord
       result.zip_code = data.zip_code
       result.phone_number = data.phone_number
       result.email = data.email
-      
+
       if has_id
         result.id = data.id
       end
@@ -104,16 +99,14 @@ class DuePayments::Landlord
 
   private
   def initialize(value)
-    unless value == @@create_id
-      raise "Can't create instance variable"
-    end
+    raise "Can't create instance variable" unless value == @@create_id
 
-    @firstname = ""
-    @lastname = ""
-    @address = ""
-    @zip_code = ""
-    @phone_number = ""
-    @email = ""
+    @firstname = ''
+    @lastname = ''
+    @address = ''
+    @zip_code = ''
+    @phone_number = ''
+    @email = ''
     @id = nil
 
   end
